@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Big line big clique conjecture</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button w3-theme-l1">Main</a>
+    <a href="game.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Game</a>
+    <a href="algo.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Algorithm</a>
+    <a href="highscores.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Highscores</a>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Introduction">Introduction</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Goal">Goal</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#References">References</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">The Big Line Big Clique Conjecture</h1>
+    </div>
+  </div>
+
+  <div class="w3-row">
+    <div class="w3-twothird w3-container">
+      <h2 class="w3-text-teal" id="Introduction">Introduction</h2>
+      <img src="graph1.jpg" style="float:right;width:250px">
+      <p>
+        What is the big-line-big-clique conjecture? The conjecture states that for all integers k, l &ge; 2 there is an integer n such that every set of at least n points in the plane contains at least l collinear points (vertices on the same line) or k pairwise visible points this means that  the clique number of the visibility graph is equal to k.
+      </p>
+
+      <p>
+        On the left we can see the visibility graph of the integer lattice. Here k= 4and l= 6. We can notice that here the chromatic number is equal to the clique number.
+      </p>
+
+      <p>
+        Kára et al. proved the conjecture first for k &le; 4 and all l. And the latest proof is from Abel et al. and it stands for k = 5 and all l. The conjecture is still open for k=6 and l=4.
+      </p>
+
+      <p>
+        As clarification you can see on the left the visibility graph of the integer lattice. We can see here k=4 because this is the maximum clique of this graph (note that adjacent means connected by an edge and for example point (1,1) and point (2,5) are adjacent). And $l=6$ because all rows and columns have 6 collinear points and the two diagonals also have 6 collinear points and there are no 7 points that are collinear in the graph.
+      </p>
+    </div>
+    <div class="w3-third w3-container">
+      <p class="w3-border w3-padding-large w3-padding-32 w3-center"><img src="logo_ulb_bis.jpg" height="60"></p>
+    </div>
+  </div>
+
+
+  <div class="w3-row">
+    <div class="w3-twothird w3-container">
+      <h2 class="w3-text-teal" id="Goal">Goal</h2>
+      <p>
+        The goal of this webpage is to create a tool for any user to manipulate and play with, test or try to understand deeper what the problem is about.
+      </p>
+
+      <p>
+        The first step to understanding the conjecture is knowing what a <a href="https://mathworld.wolfram.com/Clique.html">clique</a> is. A clique of a graph G is a complete subgraph of G, and the clique of largest possible size is referred to as a maximum clique (which has size known as the clique number &omega;(G)). A maximal clique is a clique that cannot be extended by including one more adjacent vertex, meaning it is not a subset of a larger clique. Maximum cliques are therefore maximal cliqued (but not necessarily vice versa).<br> <a href="https://www.youtube.com/watch?v=nBrFC0STApo">Here is an explanatory video of what a clique is</a>.
+      </p>
+
+      <p>
+        What is a visibility graph? A visibility graph is a graph where all vertices that can "see" each other are connected by an edge more formally, two vertices v, w &isin; P are connected by an edge if there is no other vertex in P on the edge connecting u and v. If we take the integer lattice from above, we first start with a graph without any edge, and for every vertex a1 in the graph we will add an edge going from a1 to the second vertex a2, if there is no vertex between a1 and a2. Now we do this for every vertex and we get our graph. Notice that visually there is no difference between a visibility graph and a plain complete graph because vertices that are not connected with each other are still connected by multiple straight edges with vertices in between.
+      </p>
+
+      <p>
+        Collinear points are pretty easy to understand. Collinear points are points that all lie in the same line. To find the "l"-value from the algorithm we basically have to find the straight line that goes through the maximal amount of vertices in the graph.
+      </p>
+
+      <p>
+        An interesting observation is that for the integer lattice, the chromatic number and the clique number coincide. Whether there is a similar relationship for all visibility graphs is a fundamental open problem.
+      </p>
+    </div>
+  </div>
+
+  <div class="w3-row">
+    <div class="w3-twothird w3-container">
+      <h2 class="w3-text-teal" id="References">References</h2>
+      <ol>
+        <li>
+          Zachary Abel, Brad Ballinger, Prosenjit Bose, Sébastien Collette, Vida Dujmovic, Ferran Hurtado, ScottKominers, Stefan Langerman, Attila Por, and David Wood. <cite>Every large point set contains many collinearpoints or an empty pentagon.</cite> volume 27, pages 99–102, 01 2009.
+        </li>
+        <li>
+          Jan Kára, Attila Por, and David Wood. <cite>On the chromatic number of the visibility graph of a set of points in the plane. </cite> Discrete & Computational Geometry, 34:497–506, 09 2005.
+        </li>
+        <li>
+          Wu, Qinghua & Hao, Jin-Kao. (2015). <cite>A review on algorithms for maximum clique problems.</cite> European Journal of Operational Research. 242. 693-709. 10.1016/j.ejor.2014.09.064. 
+        </li>
+        <li>
+          Babel, L. <cite>A fast algorithm for the maximum weight clique problem.</cite> Computing 52, 31–38 (1994).
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      <h4>INFO-F420 - Computational geometry - 2020/2021</h4>
+      <h4>Hugo Callebaut 000 440 856</h4>
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>

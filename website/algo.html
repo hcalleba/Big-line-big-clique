@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Big line big clique conjecture</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+.w3-sidebar {
+  z-index: 3;
+  width: 250px;
+  top: 43px;
+  bottom: 0;
+  height: inherit;
+}
+canvas {
+  border-radius: 12px;
+  border: 3px solid #555555;
+}
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button w3-theme-l1">Main</a>
+    <a href="game.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Game</a>
+    <a href="algo.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Algorithm</a>
+    <a href="highscores.html" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Highscores</a>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Algorithm">Algorithm</a>
+</nav>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal" id="Algorithm">Algorithm</h1>
+      <h4>Adding new vertex</h4>
+      <p>
+        Each time a new vertex is inserted (clicked on the canvas) a loop will go over all the vertices in the graph to make sure it is not a duplicate vertex. O(n)
+      </p>
+      <h4>Collinearity</h4>
+      <p>
+        There are multiple ways to do this. The first way would be for each vertex calculate the slope to every other vertex and look for duplicates. These can be found by sorting the slopes and comparing them to adjacent values. This would be in O(n<sup>2</sup>*log(n)). Instead we will use a hashmap to find duplicates. This will give us a complexity of O(n<sup>2</sup>).
+      </p>
+      <h4>Visibility graph</h4>
+      <p>
+        This looks very familiar to the algorithm for colinearity. Actually both parts could have easily be grouped together as both algorithm do the same calculations and insert approximately the same values in the hashmap. This would have been faster, but for more readability and because these calculations are not the bottleneck of the computations, the two parts have been separated. Here again a hashmap of the slopes will be created for each vertex. The  difference  with the previous map is that for a vertex i, the slope for all vertices will be computed and put into the hashmap instead of only the vertices with an index > i as previously. Once this hashmap is completed for a certain vertex, his closest left and right (above and below if slope is infinity) neighbors for each slope will be computed and put into his list of neighbors. So as a recap, for a vertex v, every other vertex will be added to his neighbors unless there is another closer neighbor with the same slope on the same side of v. This is thus a visibility graph. The complexity is again O(n<sup>2</sup>) because we have two nested for loops looping over every vertex. It is although much slower than the collinearity algorithm because the amount of computations of the second loop is always n while for collinearity it is n, n-1, n-2, ..., 1, 0.
+      </p>
+      <h4>Maximum clique</h4>
+      <p>
+        Explain here.
+      </p>
+    </div>
+  </div>
+
+  <footer id="myFooter">
+    <div class="w3-container w3-theme-l2 w3-padding-32">
+      <h4>INFO-F420 - Computational geometry - 2020/2021</h4>
+      <h4>Hugo Callebaut 000 440 856</h4>
+    </div>
+
+    <div class="w3-container w3-theme-l1">
+      <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    </div>
+  </footer>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>
