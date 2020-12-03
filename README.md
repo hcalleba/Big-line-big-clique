@@ -1,6 +1,6 @@
 Big-line-big-clique
 
-This is a website, just launch inde.html in the website folder
+This is a website, just launch index.html from the website folder in a browser
 
 If launched with firefox there should be no problem.
 Most other browsers need a local server for the page to work otherwise
