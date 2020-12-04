@@ -167,7 +167,13 @@ function compute() {
   `Clique number = ${k}`
 
   if (l <= 6 && l >= 2 && k <=6 && k >= 2) {
-    localStorage.setItem("l" + l + "k" + k, localStorage.getItem("last"));
+    if (localStorage.getItem("l"+l+"k"+k) != null) {
+      if (JSON.parse(localStorage.getItem("l"+l+"k"+k)).length < JSON.parse(localStorage.getItem("last")).length) {
+        localStorage.setItem("l" + l + "k" + k, localStorage.getItem("last"));
+      }
+    } else {
+      localStorage.setItem("l" + l + "k" + k, localStorage.getItem("last"));
+    }
   }
 }
 
