@@ -36,16 +36,18 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     <i class="fa fa-remove"></i>
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#Introduction">Introduction</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#Goal">Goal</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#References">References</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#L2">L = 2</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#L3">L = 3</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#L4">L = 4</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#L5">L = 5</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#L6">L = 6</a>
 </nav>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-<div class="w3-main" style="margin-left:250px">
+<div class="w3-main" style="margin-left:250px" id="main">
 
   <div class="w3-row w3-padding-64">
     <div class="w3-twothird w3-container">
@@ -53,14 +55,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
     </div>
   </div>
 
-  <div class="w3-row">
-    <div class="w3-twothird w3-container">
-      <h2 class="w3-text-teal" id="Introduction">These are the best scores</h2>
-      <p>
-        Work in progress
-      </p>
-    </div>
-  </div>
+  <script src="highscore.js"></script>
 
   <footer id="myFooter">
     <div class="w3-container w3-theme-l2 w3-padding-32">

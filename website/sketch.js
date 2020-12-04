@@ -1,7 +1,8 @@
 let winWidth = 800;
 let winHeight = 600;
-let winDiff = 20;
+let winDiff = 40;
 let collinearLine;
+let points;
 
 class Point {
   constructor(x, y) {
@@ -42,8 +43,6 @@ class Line {
   }
 }
 
-let points = [];
-
 function setup() {
   const myCanvas = createCanvas(winWidth, winHeight);
   myCanvas.parent('canvasDiv');
@@ -61,6 +60,20 @@ function setup() {
   button2 = createButton("+");
   button2.parent('subCanvas');
   button2.mouseClicked(zoomIn);
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  let l = urlParams.get('l');
+  let k = urlParams.get('k');
+
+  if (localStorage.getItem("l"+l+"k"+k) != null) {
+    points = JSON.parse(localStorage.getItem("l"+l+"k"+k));
+      for (i = 0; i < points.length; i++) {
+      points [i] = new Point(points[i].x, points[i].y);
+    }
+  } else {
+    points= []
+  }
 }
 
 function draw() {
@@ -88,14 +101,13 @@ function draw() {
 
   // Draw the line with most collinear points
   if (collinearLine) {
-    new Line(points[collinearLine[1]], collinearLine[2]).show();
+    new Line(collinearLine[1], collinearLine[2]).show();
   }
 
   // Draw the maximum clique
   stroke('violet');
   strokeWeight(2);
   for (i = 0; i < myClique.length; i++) {
-    ellipse(myClique[i].x*winDiff, myClique[i].y*winDiff, 7, 7);
     for (j = i+1; j < myClique.length; j++) {
 
       line(myClique[i].x*winDiff, myClique[i].y*winDiff, myClique[j].x*winDiff, myClique[j].y*winDiff);
@@ -131,19 +143,32 @@ function compute() {
   for (i = 0; i < points.length; i++) {
     points[i].adjacent = [];
   }
+  // Saves the last input in case it becomes a highscore
+  localStorage.setItem("last", JSON.stringify(points));
+
   // Calculate the collinear points
   collinearLine = maxCollinear(points);
+  collinearLine[1] = points[collinearLine[1]];
   
   // Create the 'edges' between the points
   createVisibility(points);
 
   // Call to maxClique
   myClique = [];
+  // Sort points by smallest degree first
+  points.sort((a, b) => (a.adjacent.length > b.adjacent.length) ? 1 : -1);
   maxClique([], points.slice());
 
+  let l = collinearLine[0]
+  let k = myClique.length
+
   // Update text under the canvas
-  document.getElementById("result").innerHTML = `Collinear points (l) = ${collinearLine[0]} \n` + 
-  `Clique number = ${myClique.length}`
+  document.getElementById("result").innerHTML = `Collinear points (l) = ${l} \n` + 
+  `Clique number = ${k}`
+
+  if (l <= 6 && l >= 2 && k <=6 && k >= 2) {
+    localStorage.setItem("l" + l + "k" + k, localStorage.getItem("last"));
+  }
 }
 
 function zoomOut() {
@@ -294,10 +319,9 @@ function maxClique(C, P) {
     myClique = C.slice();
   }
 
-  if (C.length + P.length < myClique.length) {
+  if (C.length + P.length <= myClique.length) {
     return
   }
-  // Have to sort P ???
   while (P.length > 0) {
     p = P.pop();
     C_ = C.slice()

@@ -66,7 +66,31 @@ canvas {
       </p>
       <h4>Maximum clique</h4>
       <p>
-        Explain here.
+        First let's point out that we will not only find tha maximum clique's size but also the maximum clique itself for this algorithm. The size can obviously be found with size of the clique we will find. The used algorithm is the one from Carraghan & Pardalos (1990) and is reffered as CP algorithm. The CP algorithm uses two key vertex sets: C (called current solution or clique) and P (called candidate vertex set or candidate set). C designates the clique under construction while P is a subset of vertices of the graph (not in C) such that every vertex of P is connected to every vertex of C. Thus the name "candidate set" as every vertex of P can be added to the clique in construction to create a bigger clique.
+      </p>
+      <p>
+        The algorithm operates by calling recursively the function Clique(C,P) starting with an emty clique C = &empty; and P = "every vertex of the graph". We will use a global variable C_max to maintain the largest clique discovered so far. Let N(v) be the set of vertices adjacent to vertex v, here is the pseudocode of the algoritm:
+      </p>
+      <pre>
+        1.  C_max = &empty; // The maximum clique
+        2.  Function Clique(set C, set P)
+        3.     if (|C| > |C_max|) :
+        4.       C_max = C
+        5.     if (|C| + |P| > |C_max|) :
+        6.       for all p &in; P :
+        7.         P = P \ {p}
+        8.         C' = C &cup; {p}
+        9.         P' = P &cap; N(p)
+        10.        Clique(C', P')
+      </pre>
+      <p>
+        It is then called with <code>Clique(&empty;, V)</code> (V = v<sub>1</sub>, v<sub>2</sub>, ..., v<sub>n</sub> being all the vertices of the graph). We first start with ean empty set C and P equal to V. Then we try to find all cliques bigger than the size of our current maximal clique with v<sub>1</sub> in it. And we continue to do so for v<sub>2</sub> but without v<sub>1</sub> etc. until v<sub>n</sub>. The key part of this algorithm is the pruning strategy at line 5. We test if the maximal size of the clique we are currently building can surpass the size of our maximal clique in the case we added all the vertices of P to C. If not there is no point in continuiong exploring this clique as it will never be better than the one we already found. If there was no pruning, then we would just go over all the cliques of the graph.
+      </p>
+      <p>
+        For line 9, we have to compute the union of two sets of vertices. This problem is again similar to the collinear points/visibility graph algorithm. We could to a simple search over every value from both sets and have a O(n) complexity. Or we could first sort the sets (we can actually only sort one) and then compare them with a total complexity of O(nlog(n)). Or we could hash one set and search for occurences of the second one for a total complexity of O(n).
+      </p>
+      <p>
+        The performance of this algorithm highly depend on the ordering the vertices, v<sub>1</sub>,v<sub>2</sub>,…,v<sub>n</sub>. Here we have chosen to sort vertices by degree, v<sub>1</sub> having th esmallest degree.
       </p>
     </div>
   </div>

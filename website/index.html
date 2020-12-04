@@ -37,7 +37,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
   </a>
   <h4 class="w3-bar-item"><b>Menu</b></h4>
   <a class="w3-bar-item w3-button w3-hover-black" href="#Introduction">Introduction</a>
-  <a class="w3-bar-item w3-button w3-hover-black" href="#Goal">Goal</a>
+  <a class="w3-bar-item w3-button w3-hover-black" href="#Conjecture">The Conjecture</a>
   <a class="w3-bar-item w3-button w3-hover-black" href="#References">References</a>
 </nav>
 
@@ -58,11 +58,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       <h2 class="w3-text-teal" id="Introduction">Introduction</h2>
       <img src="graph1.jpg" style="float:right;width:250px">
       <p>
+        The goal of this webpage is to create a tool for any user to play with and try to understand deeper what the conjecture is about.
+      </p>
+      <p>
         What is the big-line-big-clique conjecture? The conjecture states that for all integers k, l &ge; 2 there is an integer n such that every set of at least n points in the plane contains at least l collinear points (vertices on the same line) or k pairwise visible points this means that  the clique number of the visibility graph is equal to k.
       </p>
 
       <p>
-        On the left we can see the visibility graph of the integer lattice. Here k= 4and l= 6. We can notice that here the chromatic number is equal to the clique number.
+        On the left we can see the visibility graph of the integer lattice. Here k = 4and l = 6. We can notice that here the chromatic number is equal to the clique number.
       </p>
 
       <p>
@@ -70,7 +73,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
       </p>
 
       <p>
-        As clarification you can see on the left the visibility graph of the integer lattice. We can see here k=4 because this is the maximum clique of this graph (note that adjacent means connected by an edge and for example point (1,1) and point (2,5) are adjacent). And $l=6$ because all rows and columns have 6 collinear points and the two diagonals also have 6 collinear points and there are no 7 points that are collinear in the graph.
+        As clarification you can see on the left the visibility graph of the integer lattice. We can see here k=4 because this is the maximum clique of this graph (note that adjacent means connected by an edge and for example point (1,1) and point (2,5) are adjacent). And l=6 because all rows and columns have 6 collinear points and the two diagonals also have 6 collinear points and there are no 7 points that are collinear in the graph.
       </p>
     </div>
     <div class="w3-third w3-container">
@@ -81,11 +84,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
   <div class="w3-row">
     <div class="w3-twothird w3-container">
-      <h2 class="w3-text-teal" id="Goal">Goal</h2>
-      <p>
-        The goal of this webpage is to create a tool for any user to manipulate and play with, test or try to understand deeper what the problem is about.
-      </p>
-
+      <h2 class="w3-text-teal" id="Conjecture">The Conjecture</h2>
       <p>
         The first step to understanding the conjecture is knowing what a <a href="https://mathworld.wolfram.com/Clique.html">clique</a> is. A clique of a graph G is a complete subgraph of G, and the clique of largest possible size is referred to as a maximum clique (which has size known as the clique number &omega;(G)). A maximal clique is a clique that cannot be extended by including one more adjacent vertex, meaning it is not a subset of a larger clique. Maximum cliques are therefore maximal cliqued (but not necessarily vice versa).<br> <a href="https://www.youtube.com/watch?v=nBrFC0STApo">Here is an explanatory video of what a clique is</a>.
       </p>
@@ -96,6 +95,19 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
 
       <p>
         Collinear points are pretty easy to understand. Collinear points are points that all lie in the same line. To find the "l"-value from the algorithm we basically have to find the straight line that goes through the maximal amount of vertices in the graph.
+      </p>
+
+      <p>
+        Now let's understand the trivial cases. Let's take a graph a place one vertex on it. Obviously k=l=1 because we can find a line going through one vertex (the only vertex of the graph) and we can find a 1-clique (a k-clique is a clique of size 1). If we now add a second vertex we will always be able to draw a line going through both vertices (so l=2) and both vertices will always be pairwise visible, so there will be a 2-clique and k=2. <br>
+        So if we throw this into the conjecture that states : <q>For all integers k, l &ge; 2 there is an integer n such that every set of at least n points in the plane contains at least l collinear points (vertices on the same line) or k pairwise visible.</q> We get that for k=l=2, n=2 because any set of two points (vertices) will have at least 2 collinear or two pairwise visible points (it will actually have both).
+      </p>
+
+      <p>
+        We can extend this to k=3 and l=3. Let's continue with our example with 2 vertices. If we add one more vertex we can chose to make it collinear with the previous ones or not. If we make it collinear we get l=3 and if we make it not collinear we get a 3-clique in the visibility graph and thus k=3. So this time k=l=n=3. In fact all cases where l=3 (or more generally l &le; 3) are trivial because once the graph has two vertices we always have to add a new vertex not collinear with two of the previous ones, so it will always be visible by all other vertices and thus every added vertex will increment k by one. Therefore of we take l=3, for any k, we get n=k.
+      </p>
+
+      <p>
+        Now the question is if for any pair of numbers k,l we can find a number n such that we know for sure that every visibillity graph of n vertices will have at least l collinear points or k pairwise visible points. We still don't know if it is true for k=6 and l=4 and higher values.
       </p>
 
       <p>
@@ -119,6 +131,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
         </li>
         <li>
           Babel, L. <cite>A fast algorithm for the maximum weight clique problem.</cite> Computing 52, 31–38 (1994).
+        </li>
+        <li>
+          Carraghan, R., & Pardalos, P.M. (1990). <cite>An exact algorithm for the maximumclique problem.</cite> Operations Research Letters, 9(6), 375–382.
         </li>
       </ol>
     </div>
