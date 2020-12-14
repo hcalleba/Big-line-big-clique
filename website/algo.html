@@ -92,6 +92,16 @@ canvas {
       <p>
         The performance of this algorithm highly depend on the ordering the vertices, v<sub>1</sub>,v<sub>2</sub>,…,v<sub>n</sub>. Here we have chosen to sort vertices by degree, v<sub>1</sub> having th esmallest degree.
       </p>
+      <h4>Chromatic number</h4>
+      <p>
+        This problem is again NP-complete and thus very hard to compute efficiently. Here we will not compute the chromatic number from scratch but we will just check if it is equal to the clique number. We already said that for all graphs, the clique number is a lower bound on the chromatic number, the question was if these two are equivalent for visibility graphs. (If we really wanted to compute the chromatic number from scratch we would have to check for every k between 1 and n (number of vertices) if it is k-colorable and take the smallest value for which it is true. The values of k with which we would work at each step could be optimised with something close to a binary search.)
+      </p>
+      <p>
+        Most efficient algorithms for finding and testing the chromatic number of a graph (note that <b>both</b> problems are NP-complete) do not always give exact results. The <a href="https://en.wikipedia.org/wiki/Greedy_coloring">greedy coloring algorithm</a> is very efficient and finds a coloring in O(n) but can give very bad results depending on the ordering of the vertices. In fact it is as difficult to find a bad ordering as it is to find a good ordering. It is thus a good algorithm to find colorings but not to find the best one. Another algorithm, this time for testing the k-colorability of a graph can be found here <a href="https://doi.org/10.1016/0012-365X(94)90402-2">https://doi.org/10.1016/0012-365X(94)90402-2</a>. But again it is a probablistic algorithm and is does not necessarily give the right answer. The way it works is that it randomly assigns a color to each vertex and then at each step it will choose a "wrong" vertex and it will change it's colour. Again this color change is randomized but with weights based on it's neighbors colours so there could be even more "wrong" vertices after a change.
+      </p>
+      <p>
+        After some research I then decided to implement a brute force algorithm using backtracking. As the conjecture about whether the clique number and chromatic number are the same in the case of our visibility graphs, in the case it is true we should never go the full way and have maximum complexity on the algorithm, but it computing the chromatic number does take a lot of time and is much longer than computing the clique number. The algorithm simply assigns a color to a vertex and then goes to the next vertex tries to assign a color to it adn if no color is possible, we backtrack. The upperbound time complexity will be O(k<sup>n</sup>), but will be on average smaller than that.
+      </p>
     </div>
   </div>
 

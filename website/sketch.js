@@ -3,17 +3,25 @@ let winHeight = 600;
 let winDiff = 40;
 let collinearLine;
 let points;
+let colors = ["blue", "red", "grey", "yellow", "green", "orange", "pink"];
 
 class Point {
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.adjacent = [];
+    this.colour = -1;
   }
   show() {
+    if (this.colour >= 0 && this.colour < 7) {
+      fill(colors[this.colour]);
+    } else {
+      fill("red");
+    }
     ellipse(this.x*winDiff, this.y*winDiff, 6, 6);
+    fill("black");
   }
-  showLine () {
+  showLine() {
     for (item of this.adjacent) {
       line(this.x*winDiff, this.y*winDiff, item.x*winDiff, item.y*winDiff);
     }
@@ -68,7 +76,7 @@ function setup() {
 
   if (localStorage.getItem("l"+l+"k"+k) != null) {
     points = JSON.parse(localStorage.getItem("l"+l+"k"+k));
-      for (i = 0; i < points.length; i++) {
+      for (let i = 0; i < points.length; i++) {
       points [i] = new Point(points[i].x, points[i].y);
     }
   } else {
@@ -81,21 +89,15 @@ function draw() {
 
   // Draw squared board
   stroke("gray");
-  for (i = 0; i < winHeight; i += winDiff) {
+  for (let i = 0; i < winHeight; i += winDiff) {
     line(0, i, winWidth, i);
   }
-  for (i = 0; i < winWidth; i += winDiff) {
+  for (let i = 0; i < winWidth; i += winDiff) {
     line(i, 0, i, winHeight);
   }
 
-  // Draw all points
-  fill("red");
-  for (i=0; i<points.length; i++) {
-    points[i].show();
-  } fill("black");
-
   // Draw all lines of the visibility graph 
-  for (i=0; i<points.length; i++) {
+  for (let i=0; i<points.length; i++) {
     points[i].showLine();
   }
 
@@ -107,14 +109,20 @@ function draw() {
   // Draw the maximum clique
   stroke('violet');
   strokeWeight(2);
-  for (i = 0; i < myClique.length; i++) {
-    for (j = i+1; j < myClique.length; j++) {
+  for (let i = 0; i < myClique.length; i++) {
+    for (let j = i+1; j < myClique.length; j++) {
 
       line(myClique[i].x*winDiff, myClique[i].y*winDiff, myClique[j].x*winDiff, myClique[j].y*winDiff);
     }
   }
   stroke('black');
   strokeWeight(1);
+
+  // Draw all points
+  fill("red");
+  for (let i=0; i<points.length; i++) {
+    points[i].show();
+  } fill("black");
 }
 
 function mousePressed() {
@@ -140,7 +148,7 @@ function mousePressed() {
 
 function compute() {
   // reset all the edges between the vertices
-  for (i = 0; i < points.length; i++) {
+  for (let i = 0; i < points.length; i++) {
     points[i].adjacent = [];
   }
   // Saves the last input in case it becomes a highscore
@@ -162,9 +170,17 @@ function compute() {
   let l = collinearLine[0]
   let k = myClique.length
 
+  // Check if colourable with k colors and give colours to points
+  let addStr;
+  if (k_color(k, points)) {
+    addStr = "Chromatic number and clique number are equivalent." 
+  } else {
+    addStr = "Chromatic number and clique number are different." 
+  }
+
   // Update text under the canvas
   document.getElementById("result").innerHTML = `Collinear points (l) = ${l} \n` + 
-  `Clique number = ${k}`
+  `Clique number = ${k} <br>` + addStr;
 
   if (l <= 6 && l >= 2 && k <=6 && k >= 2) {
     if (localStorage.getItem("l"+l+"k"+k) != null) {
@@ -200,10 +216,10 @@ function maxCollinear(points) {
   let curBest, slope;
 
   // Looping over each point
-  for (i = 0; i < N; i++) {
+  for (let i = 0; i < N; i++) {
     curBest = [0, 0, 0];
     // Looping from i + 1 to ignore same pair again
-    for (j = i+1; j < N; j++) {
+    for (let j = i+1; j < N; j++) {
       // Calculate slope
       if (points[i].x === points[j].x) {
         slope = Infinity;
@@ -234,8 +250,8 @@ function createVisibility (points) {
   let dict = new Map();
   let neighbors;
 
-  for (i = 0; i < N; i++) {
-    for (j = 0; j < N; j++) {
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
       if (j != i) {
         if (points[i].x === points[j].x) {
           slope = Infinity;
@@ -340,4 +356,41 @@ function maxClique(C, P) {
 function intersect(a, b) {
   var setB = new Set(b);
   return [...new Set(a)].filter(x => setB.has(x));
+}
+
+//function that returns if the graph is k-colorable
+function k_color(m, G) {
+  for (let i=0; i<G.length; i++) {
+    G[i].colour = -1;
+  }
+  if (k_colorUtil(m, G, 0) === undefined) {
+    return false;
+  }
+  return true;
+}
+
+// A recursive utility function to solve m colouring problem
+function k_colorUtil(m, G, v) {
+  if (v === G.length) {
+    return true;
+  }
+  for (let c = 0; c < m; c++) {
+    if (isColorable(G[v], c)) {
+      G[v].colour = c;
+      if (k_colorUtil(m, G, v+1) === true) {
+        return true;
+      }
+      G[v].colour = -1;
+    }
+  }
+}
+
+// Returns true if vertex v is colourable with color c
+function isColorable(v, c) {
+  for (let i=0; i<v.adjacent.length; i++) {
+    if (v.adjacent[i].colour === c) {
+      return false;
+    }
+  }
+  return true
 }
