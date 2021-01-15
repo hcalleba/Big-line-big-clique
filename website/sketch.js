@@ -3,6 +3,7 @@ let winHeight = 600;
 let winDiff = 40;
 let collinearLine;
 let points;
+let show_chromatic = true;
 let colors = ["blue", "red", "grey", "yellow", "green", "orange", "pink"];
 
 class Point {
@@ -59,7 +60,7 @@ function setup() {
   textSize(40);
   button0 = createButton("Compute");
   button0.parent('subCanvas');
-  button0.mouseClicked(compute);
+  button0.mouseClicked(compute_if_points);
 
   button1 = createButton("-");
   button1.parent('subCanvas');
@@ -68,6 +69,14 @@ function setup() {
   button2 = createButton("+");
   button2.parent('subCanvas');
   button2.mouseClicked(zoomIn);
+
+  button3 = createButton("Clear");
+  button3.parent('subCanvas');
+  button3.mouseClicked(clearCanvas);
+
+  button4 = createCheckbox("Toggle coloration", true);
+  button4.parent('subCanvas');
+  button4.changed(computeChromatic);
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -146,6 +155,12 @@ function mousePressed() {
   }
 }
 
+function compute_if_points() {
+  if (points.length > 1) {
+    compute();
+  }
+}
+
 function compute() {
   // reset all the edges between the vertices
   for (let i = 0; i < points.length; i++) {
@@ -171,11 +186,13 @@ function compute() {
   let k = myClique.length
 
   // Check if colourable with k colors and give colours to points
-  let addStr;
-  if (k_color(k, points)) {
-    addStr = "Chromatic number and clique number are equivalent." 
-  } else {
-    addStr = "Chromatic number and clique number are different." 
+  let addStr = "Chromatic number not computed.";
+  if (show_chromatic) {
+    if (k_color(k, points)) {
+      addStr = "Chromatic number and clique number are equivalent." 
+    } else {
+      addStr = "Chromatic number and clique number are different." 
+    }
   }
 
   // Update text under the canvas
@@ -199,6 +216,14 @@ function zoomOut() {
 
 function zoomIn() {
   winDiff = min(50, winDiff+5);
+}
+
+function clearCanvas() {
+  points = [];
+}
+
+function computeChromatic() {
+  show_chromatic = !show_chromatic;
 }
 
 // function to find maximum collinear points
